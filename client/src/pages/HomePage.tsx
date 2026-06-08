@@ -20,7 +20,6 @@ export default function HomePage() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 setPokemon(data);
             })
             .catch((error) => { console.error(error); })

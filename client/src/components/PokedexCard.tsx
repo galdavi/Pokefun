@@ -2,9 +2,9 @@
 import { TYPE_COLORS, type Pokemon } from "../types";
 
 export default function PokedexCard({ pokemon }: { pokemon: Pokemon }) {
-    const cardBackground = "flex flex-col items-center justify-center w-64 h-72 gap-2 py-2 bg-container-background";
+    const cardBackground = "flex flex-col items-center justify-center w-64 h-72 gap-2 py-2 bg-card-background";
     const typeBackground = "flex gap-2";
-    const spriteBackground = "flex items-center justify-center w-48 h-48 bg-container-secondary-background rounded-md";
+    const spriteBackground = "flex items-center justify-center w-48 h-48 bg-card-secondary-background rounded-md";
     return (
         <div className="flex items-center justify-center">
             
