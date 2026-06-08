@@ -11,7 +11,7 @@ export default function HomePage() {
 
 
     useEffect(() => {
-        fetch(`${POKEMON_API_URL}/17`)
+        fetch(`${POKEMON_API_URL}/151`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Error ${response.status} `);
@@ -20,6 +20,7 @@ export default function HomePage() {
                 return response.json();
             })
             .then((data) => {
+                console.log(data);
                 setPokemon(data);
             })
             .catch((error) => { console.error(error); })
@@ -28,15 +29,17 @@ export default function HomePage() {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center">
-                <h2 className="text-3xl font-bold text-text-primary py-4">Pokemon Spotlight</h2>
-                {pokemon && <PokedexCard pokemon={pokemon} />}
-                {pokemon &&
+            {
+            pokemon &&
+                <div className="flex flex-col items-center justify-center">
+                    <h2 className="text-3xl font-bold text-text-primary py-4">Featured Pokemon</h2>
+                    <PokedexCard pokemon={pokemon} />
+
                     <div className="">
                         <PokedexEntries pokemon={pokemon} />
-                    </div>}
-            </div>
-
+                    </div>
+                </div>
+            }
         </>
     );
 }
