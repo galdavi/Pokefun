@@ -14,7 +14,7 @@ export default function Navbar() {
         <>
             <nav className={navBase}>
                 <div className="flex items-center">
-                    <h1 className="text-md text-white">Pokéfun</h1>
+                    <Link to="/" className="text-md text-white">Pokéfun</Link>
                     <img src="./src/assets/pokefun-logo.png" alt=""
                         className="w-16 h-12" />
                 </div>
