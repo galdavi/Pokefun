@@ -1,8 +1,8 @@
 
 import { TYPE_COLORS, type Pokemon } from "../types";
-//add 16 px
+
 export default function PokedexCard({ pokemon }: { pokemon: Pokemon }) {
-    const cardBackground = "flex flex-col items-center justify-center w-48 h-56  lg:w-56 lg:h-64 gap-2 py-2 bg-card-background";
+    const cardBackground = "flex flex-col items-center justify-center w-48 h-56  lg:w-56 lg:h-64 gap-2 py-2 bg-card-background border border-gray-200 rounded-sm shadow-sm";
     const typeBackground = "flex gap-2";
     const spriteBackground = "flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 bg-card-secondary-background rounded-md ";
     const spriteSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`

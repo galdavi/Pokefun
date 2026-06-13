@@ -44,7 +44,7 @@ export default function PokedexEntries({ pokemon }: { pokemon: Pokemon }) {
     const [currentEntry, setCurrentEntry] = useState("Red");
     const entriesSize = entries.size;
 
-    const list = Array.from(entries.keys(), (version) => <option key={version}>{version}</option> );
+    const list = Array.from(entries.keys(), (version) => <option key={version}>{version}</option>);
 
 
 
@@ -58,7 +58,6 @@ export default function PokedexEntries({ pokemon }: { pokemon: Pokemon }) {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 setEntries(cleanEntries(data.flavor_text_entries));
             })
             .catch((error) => { console.error(error); })
@@ -67,17 +66,19 @@ export default function PokedexEntries({ pokemon }: { pokemon: Pokemon }) {
     return (
         <>
             {entriesSize > 0 &&
-                <div className="flex flex-col w-64 h-32 px-3 gap-2 bg-card-background">
+                <div className="flex flex-col w-64 h-32  px-2 pt-4 gap-2 bg-card-background border border-gray-200 shadow-sm rounded-sm">
 
-                    <div className="flex flex-col items-center">
-                        <p className="text-xs text-text-secondary"> {entries.get(currentEntry)}</p>
-                    </div>
+                    <h2>Pokedex Entries</h2>
                     <div className="flex gap-2">
+
                         <label className="text-xs">Select Version:</label>
                         <select value={currentEntry} className="text-xs border rounded-sm"
-                            onChange={(e) => { setCurrentEntry(e.target.value)}}>
+                            onChange={(e) => { setCurrentEntry(e.target.value) }}>
                             {list}
                         </select>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="text-xs text-text-secondary"> {entries.get(currentEntry)}</p>
                     </div>
                 </div>
             }
