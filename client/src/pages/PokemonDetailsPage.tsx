@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import type { PokedexEntry, Pokemon } from "../types";
 import PokedexCard from "../components/PokedexCard";
 import PokedexEntries from "../components/PokedexEntries";
-import PokemonStats from "../components/PokemonStats";
-
+import PokemonBaseStats from "../components/PokemonBaseStats";
+import PokemonTypeDefense from "../components/PokemonTypeDefense";
 
 export default function PokemonDetails() {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -42,8 +42,7 @@ export default function PokemonDetails() {
             .catch((err) => { console.error(err); })
     }, [param.pokemon]);
 
-    console.log(pokemon);
-    console.log(pokedexEntry);
+
     return (
         <>
             {!pokemon ? `Pokemon ${param.pokemon} not found` :
@@ -59,11 +58,12 @@ export default function PokemonDetails() {
                         </div>
                     </div>
 
-                    <div className="grid-rows-1 w-full py-4">
-                        <PokemonStats data={pokemon.stats}/>
+                    <div className="grid grid-cols-1 w-full py-4 gap-4">
+                        <PokemonBaseStats data={pokemon.stats } />
+                        <PokemonTypeDefense data= {pokemon.types}/>
                     </div>
                 </div>
-                
+
             }
         </>
 

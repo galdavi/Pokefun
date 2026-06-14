@@ -1,7 +1,7 @@
 export type Pokemon = {
     id: number;
     name: string;
-    types?: Array<{
+    types: Array<{
         slot: number;
         type: {
             name: PokemonType;

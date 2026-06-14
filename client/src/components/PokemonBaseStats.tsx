@@ -1,5 +1,6 @@
 
 
+
 function formatStats(data: { base_stat: number, stat: { name: string } }[]) {
     const stats = [];
     for (const stat of data) {
@@ -45,11 +46,11 @@ function formatStats(data: { base_stat: number, stat: { name: string } }[]) {
 
     return stats;
 }
-export default function PokemonStats({ data }: { data: Array<{ base_stat: number, stat: { name: string } }> }) {
+export default function PokemonBaseStats({ data }: { data:  Array<{ base_stat: number, stat: { name: string } }> }) {
     const stats = formatStats(data);
     const maxStatValue = 255;
     return (
-        <div className="grid grid-cols-1 w-2/3 gap-1">
+        <div className="grid grid-cols-1 w-5/6 gap-1">
             <h2 className="text-2xl font-semibold">Base Stats</h2>
             <div className="grid grid-cols-1  w-full border-y border-gray-300">
                 {stats.map((stat) =>
