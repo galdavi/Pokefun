@@ -60,7 +60,7 @@ export default function PokemonDetails() {
 
                     <div className="grid grid-cols-1 w-full py-4 gap-4">
                         <PokemonBaseStats data={pokemon.stats } />
-                        <PokemonTypeDefense data= {pokemon.types}/>
+                        <PokemonTypeDefense pokemonTypes= {pokemon.types}/>
                     </div>
                 </div>
 
