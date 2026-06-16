@@ -22,6 +22,10 @@ function Effectiveness({ value }: { value: number | null }) {
     let background :string;
     let damageEffect : string;
     switch(value){
+        case 0:
+            damageEffect ="0";
+            background = "bg-zinc-800 border border-red-700";
+            break;
         case 0.25:
             damageEffect = "¼"; 
             background = "bg-red-900";
@@ -113,7 +117,7 @@ export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: Arr
                     <div key={typeName} className="grid grid-cols-1 ">
                         <div className="flex items-center  justify-center h-8 w-8 border border-gray-200 rounded-sm"
                             style={{ background: TYPE_COLORS[typeName] }}>
-                            <span className="text-xs text-white font-semibold">{typeName[0].slice(0, 3).toUpperCase()}</span>
+                            <span className="text-xs text-white font-semibold">{typeName.slice(0, 3).toUpperCase()}</span>
                         </div>
                         <Effectiveness key={typeName}value={multiplier} />
                     </div>)}
