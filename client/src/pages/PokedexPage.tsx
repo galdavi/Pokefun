@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Pokedex from "../components/Pokedex";
+import Pokedex from "../components/pokedex/Pokedex";
 
 const GEN_API_URL = "https://pokeapi.co/api/v2/generation/"
 

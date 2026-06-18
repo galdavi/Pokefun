@@ -6,20 +6,61 @@ export type Pokemon = {
         type: {
             name: PokemonType;
             url: string;
-        }
+        };
     }>;
     stats: Array<{
-        base_stat: number,
-        stat: { name: string }
-    }>
+        base_stat: number;
+        effort: number;
+        stat: { name: string; };
+    }>;
+    cries: {
+        latest: string;
+        legacy: string;
+    }
+    height: number;
+    weight: number;
+    abilities: Array<{
+        ability: {
+            name: string;
+            url: string;
+        };
+        is_hidden: boolean;
+    }>;
+    base_experience: number;
+
+
 }
 
 export type PokedexEntry = {
     flavor_text_entries: {
         flavor_text: string;
-        language: { name: string };
-        version: { name: string };
+        language: { name: string; };
+        version: { name: string; };
     }
+    genera: Array<{
+        genus: string;
+        language: {
+            name: string;
+        };
+    }>;
+    capture_rate: number;
+    base_happiness: number;
+    growth_rate: {
+        name: string;
+    };
+    egg_groups: Array<{
+        name: string;
+    }>;
+    hatch_counter: number;
+    gender_rate: number;
+    has_gender_differences: boolean;
+    shape: {
+        name: string;
+        url: string;
+    };
+    is_baby: boolean;
+    is_legendary: boolean;
+    is_mythical: boolean;
 }
 
 export const TYPE_COLORS = {

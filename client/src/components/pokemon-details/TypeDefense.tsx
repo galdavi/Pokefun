@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TYPE_COLORS, type PokemonType } from "../types";
+import { TYPE_COLORS, type PokemonType } from "../../types";
 
 type TypeDamageData = {
     damage_relations: {
@@ -95,9 +95,8 @@ export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: Arr
             try {
                 const response = await Promise.all((pokemonTypes.map((type) => fetch(type.type.url))));
                 const data = await Promise.all((response.map((res) => res.json())));
-
-
                 setEffectiveness(getDamageRelations(data));
+                
             } catch (error) {
                 console.error(`Error Fetching data:${error}`);
             }

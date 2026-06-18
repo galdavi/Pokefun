@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PokedexCard from "./PokedexCard";
+import PokedexCard from "../PokedexCard";
 
 
 interface Pokedex {

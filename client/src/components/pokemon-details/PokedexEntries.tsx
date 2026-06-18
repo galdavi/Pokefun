@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { type Pokemon } from "../types";
-import { POKEDEX_API_URL } from "../constants";
+import { type Pokemon } from "../../types";
+import { POKEDEX_API_URL } from "../../constants";
 
 interface PokedexEntries {
     flavor_text: string;

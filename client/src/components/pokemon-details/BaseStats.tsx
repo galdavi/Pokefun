@@ -1,25 +1,10 @@
+import { formatStat } from "../../helpers/formatters";
 
 
-
-function formatStats(data: { base_stat: number, stat: { name: string } }[]) {
+function getStats(data: { base_stat: number, stat: { name: string } }[]) {
     const stats = [];
     for (const stat of data) {
-        let name: string;
-
-        switch (stat.stat.name) {
-            case "hp":
-                name = stat.stat.name.toUpperCase();
-                break;
-            case "special-attack":
-                name = "Sp. Atk";
-                break;
-            case "special-defense":
-                name = "Sp. Def";
-                break;
-            default:
-                name = stat.stat.name[0].toUpperCase() + stat.stat.name.slice(1);
-
-        }
+        const name = formatStat(stat.stat.name);
 
         let color: string;
         switch (true) {
@@ -46,8 +31,8 @@ function formatStats(data: { base_stat: number, stat: { name: string } }[]) {
 
     return stats;
 }
-export default function PokemonBaseStats({ data }: { data:  Array<{ base_stat: number, stat: { name: string } }> }) {
-    const stats = formatStats(data);
+export default function BaseStats({ data }: { data:  Array<{ base_stat: number, stat: { name: string } }> }) {
+    const stats = getStats(data);
     const maxStatValue = 255;
     return (
         <div className="grid grid-cols-1 w-5/6 gap-1">

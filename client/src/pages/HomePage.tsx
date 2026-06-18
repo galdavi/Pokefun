@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { POKEMON_API_URL } from "../constants";
 import { type Pokemon } from "../types";
-import PokedexEntries from "../components/PokedexEntries";
+import PokedexEntries from "../components/pokemon-details/PokedexEntries";
 import PokedexCard from "../components/PokedexCard";
 
 
