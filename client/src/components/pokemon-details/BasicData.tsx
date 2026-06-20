@@ -1,6 +1,7 @@
 import { toTitleCase } from "../../helpers/formatters";
-import { type Pokemon, type PokedexEntry, TYPE_COLORS } from "../../types";
-import { dataRow, rowHead, dataCol } from "./styles";
+import { type Pokemon, type PokedexEntry, type Content } from "../../types";
+import PokemonTypeBadges from "../PokemonTypeBadges";
+import DataCol from "./DataCol";
 
 
 function getPokemonDimensions(w: number, h: number) {
@@ -17,76 +18,33 @@ function getPokemonDimensions(w: number, h: number) {
     return { weight, height };
 }
 
+function Abilities({ pokemon }: { pokemon: Pokemon }) {
+    return (pokemon.abilities.map((a) =>
+        <span key={a.ability.name} className="flex items-center flex-wrap" >
+            {toTitleCase(a.ability.name)}
+            {a.is_hidden && (<span className="text-xs text-text-secondary"> ( Hidden )</span>)}
+        </span>));
+}
 
 export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokedexEntry }) {
     const category = pokedexEntry.genera.find((category) => category.language.name === "en");
     const dimensions = getPokemonDimensions(pokemon.weight, pokemon.height);
 
+    const content: Content =
+        [
+            { label: "№", value: pokemon.id.toString().padStart(4, "0") },
+            { label: "Type", value: (<PokemonTypeBadges types={pokemon.types} />) },
+            { label: "Category", value: (category ? category.genus : '') },
+            { label: "Height", value: (`${dimensions.height.metric} (${dimensions.height.USCustomary})`) },
+            { label: "Weight", value: (`${dimensions.weight.metric} (${dimensions.weight.USCustomary})`) },
+            { label: "Abilities", value: <Abilities pokemon={pokemon} /> },
+            { label: "Shape", value: toTitleCase(pokedexEntry.shape.name) },
+            { label: "Baby", value: (pokedexEntry.is_baby ? 'Yes' : 'No') },
+            { label: "Legendary", value: (pokedexEntry.is_legendary ? 'Yes' : 'No') },
+            { label: "Mythical", value: (pokedexEntry.is_mythical ? 'Yes' : 'No') }
+
+        ]
     return (
-        <div className={dataCol}>
-            <div className={dataRow}>
-                <span className={rowHead}> № </span>
-                <span>{pokemon.id.toString().padStart(4, "0")}</span>
-            </div>
-
-            <div className={dataRow}>
-                <span className={rowHead}>Type</span>
-                <div className="flex gap-2">
-                    {
-                        pokemon.types?.map(({ type }) => {
-                            return (
-                                <div key={type.name}
-                                    className="flex items-center justify-center w-14 py-1 rounded-sm"
-                                    style={{ background: TYPE_COLORS[type.name] }}
-                                >
-                                    <p className="text-xs text-white font-bold">
-                                        {toTitleCase(type.name)}</p>
-                                </div>
-                            );
-                        })}
-                </div>
-            </div>
-            {category &&
-                <div className={dataRow}>
-                    <span className={rowHead}>Category</span>
-                    <span>{category.genus}</span>
-                </div>
-            }
-            <div className={dataRow}>
-                <span className={rowHead}>Height</span>
-                <span >{`${dimensions.height.metric} (${dimensions.height.USCustomary})`}</span>
-            </div>
-            <div className={dataRow}>
-                <span className={rowHead}>Weight</span>
-                <span >{`${dimensions.weight.metric} (${dimensions.weight.USCustomary})`}</span>
-            </div>
-            <div className={dataRow}>
-                <span className={rowHead}>Abilities</span>
-                <div className="grid grid-cols-1">
-                    {pokemon.abilities.map((a) => <span key={a.ability.name} className="flex flex-wrap" >
-                        {toTitleCase(a.ability.name)}
-                        {a.is_hidden && (<span className="text-xs text-text-secondary"> ( Hidden )</span>)}
-                    </span>)}
-                </div>
-            </div>
-            <div className={dataRow}>
-                <span className={rowHead}>Shape</span>
-                <span>{toTitleCase(pokedexEntry.shape.name)}</span>
-            </div>
-            <div className={dataRow}>
-                <span className={rowHead}>Baby Pokemon</span>
-                <span> {pokedexEntry.is_baby ? 'Yes' : 'No'}</span>
-            </div>
-
-            <div className={dataRow}>
-                <span className={rowHead}>Legendary Pokemon</span>
-                <span> {pokedexEntry.is_legendary ? 'Yes' : 'No'}</span>
-            </div>
-            <div className={dataRow}>
-                <span className={rowHead}>Mythical Pokemon</span>
-                <span> {pokedexEntry.is_mythical ? 'Yes' : 'No'}</span>
-            </div>
-        </div>
-
+        <DataCol title={"Pokemon Data"} content={content} />
     );
 }

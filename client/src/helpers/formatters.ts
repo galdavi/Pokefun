@@ -1,5 +1,5 @@
 export function toTitleCase(text : string){
-    text = text.replace(/-/g, " ");
+    text = text.replace(/[-_]/g, " ");
     return text.replace(/(^|\s)[a-z]/g, match => match.toUpperCase())
 }
 
