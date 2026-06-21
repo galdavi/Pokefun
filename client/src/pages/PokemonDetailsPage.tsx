@@ -7,7 +7,8 @@ import TypeDefense from "../components/pokemon-details/TypeDefense";
 import BasicData from "../components/pokemon-details/BasicData";
 import TrainingData from "../components/pokemon-details/TrainingData";
 import BreedingData from "../components/pokemon-details/BreedingData";
-
+import Artwork from "../components/pokemon-details/Artwork";
+import PokedexEntries from "../components/pokemon-details/PokedexEntries";
 
 export default function PokemonDetails() {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -48,10 +49,15 @@ export default function PokemonDetails() {
         <>
             {!pokemon || !pokedexEntry ? `Pokemon ${param.pokemon} not found` :
                 <main className="flex flex-col items-center justify-center w-full bg-white rounded-sm border border-gray-200 shadow-md p-4">
+                    <section className="grid grid-cols-1 justify-items-center w-full max-w-lg h-auto py-2 border border-neutral-200 rounded-md gap-2 shadow-sm">
+                        <Artwork pokemon={pokemon} />
+                        <PokedexEntries pokemon={pokemon}/>
+                    </section>
+                    
                     <section className="grid grid-cols-1 gap-8">
-                        <BasicData pokemon={pokemon} pokedexEntry={pokedexEntry}/>
-                        <TrainingData pokemon={pokemon} pokedexEntry={pokedexEntry}/>
-                        <BreedingData pokedexEntry={pokedexEntry}/>
+                        <BasicData pokemon={pokemon} pokedexEntry={pokedexEntry} />
+                        <TrainingData pokemon={pokemon} pokedexEntry={pokedexEntry} />
+                        <BreedingData pokedexEntry={pokedexEntry} />
                     </section>
 
                     <section className="grid grid-cols-1 w-full py-4 gap-8">
