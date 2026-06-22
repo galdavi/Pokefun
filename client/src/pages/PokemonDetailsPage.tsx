@@ -44,14 +44,13 @@ export default function PokemonDetails() {
             })
             .catch((err) => { console.error(err); })
     }, [param.pokemon]);
-
     return (
         <>
             {!pokemon || !pokedexEntry ? `Pokemon ${param.pokemon} not found` :
                 <main className="flex flex-col items-center justify-center w-full bg-white rounded-sm border border-gray-200 shadow-md p-4">
-                    <section className="grid grid-cols-1 justify-items-center w-full max-w-lg h-auto py-2 border border-neutral-200 rounded-md gap-2 shadow-sm">
+                    <section className="grid grid-cols-1 justify-items-center w-full max-w-lg h-auto pt-2 border border-neutral-200 rounded-md gap-2 shadow-sm">
                         <Artwork pokemon={pokemon} />
-                        <PokedexEntries pokemon={pokemon}/>
+                        <PokedexEntries pokedexEntry={pokedexEntry}/>
                     </section>
                     
                     <section className="grid grid-cols-1 gap-8">
