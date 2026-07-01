@@ -82,29 +82,32 @@ export type PokedexEntry = {
   is_baby: boolean;
   is_legendary: boolean;
   is_mythical: boolean;
+  evolution_chain: {
+    url: string;
+  };
 };
 
-export type  EvolutionChain = {
-    id: number;
-    chain: {
-        evolves_to: Array<{
-            is_baby: boolean;
-            species: {
-                name: string;
-                url: string;
-            };
-            evolution_details: Array<{
-                item: string | null;
-                trigger: {
-                    name: string;
-                }
-                held_item: string | null;
-                min_level: number | null;
-                min_happiness: number | null;
-            }>;
-        }>;
-    };
+export type EvolutionChain = {
+  id: number;
+  chain: ChainLink;
 }
+export type ChainLink = {
+  species: {
+    name: string;
+    url: string;
+  };
+  evolves_to: Array<ChainLink>;
+  evolution_details: Array<{
+    item: string | null;
+    trigger: {
+      name: string;
+    }
+    held_item: string | null;
+    min_level: number | null;
+    min_happiness: number | null;
+  }>;
+}
+
 
 export const TYPE_COLORS = {
   normal: "#A1A1A1",
