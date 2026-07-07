@@ -1,18 +1,19 @@
-import { type Pokemon, type PokedexEntry, type Content } from "../../types";
+import { type Pokemon, type Content, type PokemonSpecies } from "../../types";
 import { formatStat, toTitleCase } from "../../helpers/formatters";
 import DataCol from "./DataCol";
 
 function EvStats({ pokemon }: { pokemon: Pokemon }) {
     return (
         <div className="grid grid-cols-1">
-            {pokemon.stats.map((s) => (s.effort > 0 && <span key={s.stat.name}>
+            {pokemon.stats.map((s) => (s.effort > 0 && 
+            <span key={s.stat.name}>
                 {`${s.effort} ${formatStat(s.stat.name)}`}
             </span>)
             )}
         </div>
     );
 }
-export default function TrainingData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokedexEntry }) {
+export default function TrainingData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokemonSpecies }) {
     const content: Content =
         [
             { label: "EV yield", value: <EvStats pokemon={pokemon} /> },

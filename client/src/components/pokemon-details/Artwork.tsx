@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { toTitleCase } from "../../helpers/formatters";
 import type { Pokemon } from "../../types";
+import imageNotFound from  "../../assets/image-not-found.png";
 
 function getArtwork(pokemon: Pokemon) {
     const artwork = new Map<string, string>();
+
     for (const [key, value] of Object.entries(pokemon.sprites.other)) {
         if (key !== "showdown" && key !== "dream_world") {
+           
+            
             if (key === "home") {
-                artwork.set("Game", value.front_default);
+                artwork.set("Game", value.front_default ?  value.front_default: imageNotFound)  
             } else {
-                artwork.set(toTitleCase(key), value.front_default);
+                artwork.set(toTitleCase(key), value.front_default ?  value.front_default: imageNotFound);
             }
         }
     }

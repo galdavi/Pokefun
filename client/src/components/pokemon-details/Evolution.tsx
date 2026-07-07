@@ -89,25 +89,36 @@ function getGrid(node: ChainLink) {
     grid.push(col);
     return grid;
 }
-export default function Evolution({ evolutionChain }: { evolutionChain: EvolutionChain }) {
+export default function Evolution({ evolutionChain, pokemonName }: { evolutionChain: EvolutionChain, pokemonName: string }) {
     const grid = getGrid(evolutionChain.chain);
-    console.log(grid);
+    const numOfCols = grid.length;
     return (
-        <div className="grid grid-cols-3 gap-2">
-            {grid.map(
-                (evolutions, col) =>
-                    <div key={col} className="flex flex-col">
-                        <div className="flex flex-col flex-1 items-center justify-center">
-                            {evolutions.map((pokemon, row) => pokemon ?
-                                <div key={`[${col}, ${row}]`} className="flex items-center justify-center">
-                                    {col > 0 && <Arrow index={row} evolutions={evolutions} />}
-                                    <PokemonCard name={pokemon.name} id={pokemon.id} />
+        <div className="grid grid-cols-1 items-center">
+            <h2 className="text-2xl font-semibold">Evolution</h2>
+            {numOfCols > 1 ?
+                <div className={`grid grid-cols-${numOfCols} gap-2`}>
+                    {grid.map(
+                        (evolutions, col) =>
+                            <div key={col} className="flex flex-col">
+                                <div className="flex flex-col flex-1 items-center justify-center">
+                                    {evolutions.map((pokemon, row) =>
+                                        <div key={`${col},${row}`} className="flex items-center justify-center gap-2">
+                                            {pokemon ?
+                                                <>
+                                                    {col > 0 && <Arrow index={row} evolutions={evolutions} />}
+                                                    <PokemonCard name={pokemon.name} id={pokemon.id} />
+                                                </>
+                                                : <EmptyCard />}
+                                        </div>)}
                                 </div>
-                                : <EmptyCard key={`[${col}, ${row}]`} />)}
-                        </div>
-                    </div>
-            )
+                            </div>)
+                    }
+                </div>
+                : <span>{toTitleCase(pokemonName)} does not have an evolution tree</span>
+
+
             }
+
         </div>
     );
 }

@@ -1,135 +1,154 @@
-export type Pokemon = {
+export interface Pokemon {
   id: number;
   name: string;
-  types: Array<{
-    slot: number;
-    type: {
-      name: PokemonType;
-      url: string;
-    };
-  }>;
-  stats: Array<{
-    base_stat: number;
-    effort: number;
-    stat: { name: string };
-  }>;
+  base_experience: number;
+  height: number;
+  weight: number;
+  abilities: PokemonAbility[];
+  moves: PokemonMove[];
+  sprites: PokemonSprites;
   cries: {
     latest: string;
     legacy: string;
   };
-  height: number;
-  weight: number;
-  abilities: Array<{
-    ability: {
-      name: string;
-      url: string;
-    };
-    is_hidden: boolean;
-  }>;
-  base_experience: number;
 
-  sprites: {
-    front_default: string;
-    front_female: string | null;
-    front_shiny: string | null;
-    front_shiny_female: string | null;
-    other: {
-      dream_world: {
-        front_default: string;
-        front_female: string | null;
-      };
-      home: {
-        front_default: string;
-        front_female: string | null;
-        front_shiny: string | null;
-        front_shiny_female: string | null;
-      };
-      "official-artwork": {
-        front_default: string;
-        front_shiny: string | null;
-      };
-    };
-  };
-};
+  stats: PokemonStat[];
+  types: PokemonType[];
+}
 
-export type PokedexEntry = {
-  flavor_text_entries: Array<{
-    flavor_text: string;
-    language: { name: string };
-    version: { name: string };
-  }>;
-  genera: Array<{
-    genus: string;
-    language: {
-      name: string;
-    };
-  }>;
+export interface PokemonSpecies {
+  name: string;
+  gender_rate: number;
   capture_rate: number;
   base_happiness: number;
-  growth_rate: {
-    name: string;
-  };
-  egg_groups: Array<{
-    name: string;
-  }>;
-  hatch_counter: number;
-  gender_rate: number;
-  has_gender_differences: boolean;
-  shape: {
-    name: string;
-    url: string;
-  };
   is_baby: boolean;
   is_legendary: boolean;
   is_mythical: boolean;
-  evolution_chain: {
-    url: string;
-  };
-};
-
+  hatch_counter: number;
+  has_gender_differences: boolean;
+  flavor_text_entries: FlavorText[];
+  growth_rate: NamedAPIResource;
+  egg_groups: NamedAPIResource[];
+  shape: NamedAPIResource;
+  evolution_chain: APIResource;
+  generation: NamedAPIResource;
+  genera: Genus[];
+}
+export interface PokemonTypeData {
+  name: string;
+  damage_relations: TypeRelations;
+}
+export interface TypeRelations {
+  no_damage_to: NamedAPIResource[];
+  half_damage_to: NamedAPIResource[];
+  double_damage_to: NamedAPIResource[];
+  no_damage_from: NamedAPIResource[];
+  half_damage_from: NamedAPIResource[];
+  double_damage_from: NamedAPIResource[];
+}
 export type EvolutionChain = {
   id: number;
   chain: ChainLink;
-}
+};
 export type ChainLink = {
-  species: {
-    name: string;
-    url: string;
-  };
-  evolves_to: Array<ChainLink>;
-  evolution_details: Array<{
-    item: string | null;
-    trigger: {
-      name: string;
-    }
-    held_item: string | null;
-    min_level: number | null;
-    min_happiness: number | null;
-  }>;
+  species: NamedAPIResource;
+  evolution_details: EvolutionDetail[];
+  evolves_to: ChainLink[];
+};
+
+export type Move = {
+  id: number;
+  name: string;
+  accuracy: number | null;
+  pp: number;
+  power: number;
+};
+
+export interface PokemonType {
+  slot: number;
+  type: NamedAPIResource;
+}
+export interface PokemonMoveVersion {
+  move_learn_method: NamedAPIResource;
+  version_group: NamedAPIResource;
+  level_learned_at: number;
+}
+export interface PokemonMove {
+  move: NamedAPIResource;
+  version_group_details: PokemonMoveVersion[];
 }
 
+interface NamedAPIResource {
+  name: string;
+  url: string;
+}
+interface APIResource {
+  url: string;
+}
+interface PokemonAbility {
+  is_hidden: boolean;
+  ability: NamedAPIResource;
+}
+interface PokemonSprites {
+  front_default: string | null;
+  front_shiny: string | null;
+  front_female: string | null;
+  front_shiny_female: string | null;
+  back_default: string | null;
+  back_shiny: string | null;
+  back_female: string | null;
+  back_shiny_female: string | null;
+  other: {
+    dream_world: {
+      front_default: string | null;
+      front_female: string | null;
+    };
+    home: {
+      front_default: string | null;
+      front_female: string | null;
+      front_shiny: string | null;
+      front_shiny_female: string | null;
+    };
+    "official-artwork": {
+      front_default: string | null;
+      front_shiny: string | null;
+    };
+    showdown: {
+      back_default: string | null;
+      back_female: string | null;
+      back_shiny: string | null;
+      back_shiny_female: string | null;
+      front_default: string | null;
+      front_female: string | null;
+      front_shiny: string | null;
+      front_shiny_female: string | null;
+    };
+  };
+}
+interface FlavorText {
+  flavor_text: string;
+  language: NamedAPIResource;
+  version: NamedAPIResource;
+}
+interface PokemonStat {
+  stat: NamedAPIResource;
+  effort: number;
+  base_stat: number;
+}
+interface Genus {
+  genus: string;
+  language: NamedAPIResource;
+}
+interface EvolutionDetail {
+  item: NamedAPIResource | null;
+  trigger: NamedAPIResource;
+  held_item: NamedAPIResource | null;
+  min_level: number | null;
+  min_happiness: number | null;
+}
 
-export const TYPE_COLORS = {
-  normal: "#A1A1A1",
-  fire: "#D43A30",
-  fighting: "#F08833",
-  water: "#4C79BC",
-  flying: "#8FB8E4",
-  grass: "#5D9D3C",
-  poison: "#6D4B97",
-  electric: "#F2C341",
-  ground: "#895229",
-  psychic: "#DC4D79",
-  rock: "#ADA984",
-  ice: "#78CCF0",
-  bug: "#95A135",
-  dragon: "#4C60A9",
-  ghost: "#6B426E",
-  dark: "#4E403F",
-  steel: "#74A2B9",
-  fairy: "#BA7FB5",
-} as const;
-
-export type PokemonType = keyof typeof TYPE_COLORS;
-
+export interface ErrorState{
+  title: string;
+  message: string;
+};
 export type Content = Array<{ label: string; value: React.ReactNode }>;

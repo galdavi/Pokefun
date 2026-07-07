@@ -1,5 +1,5 @@
 import { toTitleCase } from "../../helpers/formatters";
-import { type PokedexEntry, type Content } from "../../types";
+import { type PokemonSpecies, type Content } from "../../types";
 import DataCol from "./DataCol";
 
 function Steps({ cycles }: { cycles: number }) {
@@ -35,13 +35,13 @@ function GenderRatio({ rate }: { rate: number }) {
     );
 }
 
-function EggGroups({ pokedexEntry }: { pokedexEntry: PokedexEntry }) {
+function EggGroups({ pokedexEntry }: { pokedexEntry: PokemonSpecies }) {
     return (
         <div className="grid grid-cols-1">
             {pokedexEntry.egg_groups.map((e) => <span key={e.name}>{toTitleCase(e.name)}</span>)}
         </div>);
 }
-export default function BreedingData({ pokedexEntry }: { pokedexEntry: PokedexEntry }) {
+export default function BreedingData({ pokedexEntry }: { pokedexEntry: PokemonSpecies }) {
 
 
 

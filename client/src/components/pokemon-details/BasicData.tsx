@@ -1,5 +1,5 @@
 import { toTitleCase } from "../../helpers/formatters";
-import { type Pokemon, type PokedexEntry, type Content } from "../../types";
+import { type Pokemon, type PokemonSpecies, type Content } from "../../types";
 import PokemonTypeBadges from "../PokemonTypeBadges";
 import DataCol from "./DataCol";
 
@@ -26,7 +26,7 @@ function Abilities({ pokemon }: { pokemon: Pokemon }) {
         </span>));
 }
 
-export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokedexEntry }) {
+export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokemonSpecies }) {
     const category = pokedexEntry.genera.find((category) => category.language.name === "en");
     const dimensions = getPokemonDimensions(pokemon.weight, pokemon.height);
 

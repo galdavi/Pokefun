@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { type PokedexEntry } from "../../types";
+import { type PokemonSpecies } from "../../types";
 import { toTitleCase } from "../../helpers/formatters";
 
 
-function getCleanEntries(data: PokedexEntry['flavor_text_entries']) {
-    const entries = new Map<string, string>;
+function getCleanEntries(data: PokemonSpecies['flavor_text_entries']) {
+    const entries = new Map<string, string>();
 
     for (const e of data) {
         if (e.language.name === "en") {
@@ -33,7 +33,7 @@ function getCleanEntries(data: PokedexEntry['flavor_text_entries']) {
     return entries;
 }
 
-export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: PokedexEntry }) {
+export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: PokemonSpecies }) {
     const entries = getCleanEntries(pokedexEntry.flavor_text_entries);
     const [currentEntry, setCurrentEntry] = useState(entries.keys().next().value ?? " ");
 

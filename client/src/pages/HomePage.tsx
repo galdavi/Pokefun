@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { POKEMON_API_URL, POKEDEX_API_URL } from "../constants";
-import { type PokedexEntry, type Pokemon } from "../types";
+import { type PokemonSpecies, type Pokemon } from "../types";
 import PokedexEntries from "../components/pokemon-details/PokedexEntries";
-import PokedexCard from "../components/PokedexCard";
+
 
 
 
 export default function HomePage() {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-    const [pokedexEntry, setPokedexEntry] = useState<PokedexEntry | null>(null);
+    const [pokedexEntry, setPokedexEntry] = useState<PokemonSpecies | null>(null);
 
     useEffect(() => {
         fetch(`${POKEMON_API_URL}/56`)
@@ -20,7 +20,6 @@ export default function HomePage() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 setPokemon(data);
             })
             .catch((error) => { console.error(error); })
@@ -45,7 +44,7 @@ export default function HomePage() {
             pokemon && pokedexEntry &&
                 <div className="flex flex-col items-center justify-center">
                     <h2 className="text-3xl font-bold text-text-primary py-4">Featured Pokemon</h2>
-                    <PokedexCard pokemon={pokemon} />
+                    {/* <PokedexCard pokemon={pokemon} /> */}
 
                     <div className="">
                         <PokedexEntries pokedexEntry={pokedexEntry} />

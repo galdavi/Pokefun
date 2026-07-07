@@ -1,22 +1,7 @@
 import { useEffect, useState } from "react";
-import { TYPE_COLORS, type PokemonType } from "../../types";
+import {  type PokemonType,  type PokemonTypeData} from "../../types";
+import { TYPE_COLORS,  type PokemonTypeName} from "../../constants";
 
-type TypeDamageData = {
-    damage_relations: {
-        double_damage_from: Array<{
-            name: string,
-            url: string
-        }>
-        half_damage_from: Array<{
-            name: string,
-            url: string
-        }>
-        no_damage_from: Array<{
-            name: string,
-            url: string
-        }>
-    }
-}
 
 function Effectiveness({ value }: { value: number | null }) {
     let background :string;
@@ -53,49 +38,61 @@ function Effectiveness({ value }: { value: number | null }) {
             <p className="text-xs text-white">{damageEffect}</p>
         </div>);
 }
-function getDamageRelations(typeDamageData: TypeDamageData[]) {
-    const defenses = new Map<PokemonType, number | null>(
-        (Object.keys(TYPE_COLORS) as PokemonType[]).map((key) => [key, null])
+function getDamageRelations(damageData: PokemonTypeData[]) {
+    const defenses = new Map<string , number | null>(
+        Array.from(Object.keys(TYPE_COLORS)).map((name) => [name, null])
     );
 
-    typeDamageData.forEach((t) => {
-        for (const [damageCategory, relatedTypes] of Object.entries(t.damage_relations)) {
-
+    console.log(defenses);
+    damageData.forEach((currType) => {
+        for (const [damageCategory, relatedTypes] of Object.entries(currType.damage_relations)) {
             if (damageCategory === "no_damage_from") {
-                relatedTypes.forEach((immunity) => {
-                    const name = immunity.name as PokemonType;
+               
+                relatedTypes.forEach((immunity : PokemonTypeData) => {
+                    const name = immunity.name as PokemonTypeName;
                     defenses.set(name, 0);
                 });
             } else if (damageCategory === "half_damage_from") {
-                relatedTypes.forEach((resistance) => {
-                    const name = resistance.name as PokemonType;
+                relatedTypes.forEach((resistance : PokemonTypeData) => {
+                    const name = resistance.name as PokemonTypeName;
                     defenses.set(name, (defenses.get(name) || 1) / 2);
                 })
             } else if (damageCategory === "double_damage_from") {
-                relatedTypes.forEach((weakness) => {
-                    const name = weakness.name as PokemonType;
+                relatedTypes.forEach((weakness : PokemonTypeData) => {
+                    const name = weakness.name as PokemonTypeName;
                     defenses.set(name, (defenses.get(name) || 0) + 2);
                 })
             }
         }
     })
 
+    console.log(defenses)
     return defenses;
 
 }
 
-export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: Array<{ slot: number; type: { name: PokemonType; url: string; } }> }) {
-    const [effectiveness, setEffectiveness] = useState<Map<PokemonType, number | null>>(new Map());
+export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: PokemonType[]  }) {
+    const [effectiveness, setEffectiveness] = useState<Map<string, number | null>>(new Map());
    
 
 
 
     useEffect(() => {
+        
+        const TYPES_API_URL = pokemonTypes.map((t) => t.type.url);
         const fetchData = async () => {
             try {
-                const response = await Promise.all((pokemonTypes.map((type) => fetch(type.type.url))));
-                const data = await Promise.all((response.map((res) => res.json())));
-                setEffectiveness(getDamageRelations(data));
+                const allPromises = TYPES_API_URL.map(async (url)=> {
+                    const res = await fetch(url);
+                    if(!res.ok){
+                        throw new Error(`${res.status}`);
+                    }
+                    return res.json();
+                });
+                const data =  await Promise.all(allPromises);
+                const damageRelations = getDamageRelations(data);
+
+                setEffectiveness(damageRelations);
                 
             } catch (error) {
                 console.error(`Error Fetching data:${error}`);
@@ -114,8 +111,8 @@ export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: Arr
             <div className="grid grid-cols-9 gap-1">
                 {typeEffects.map(([typeName, multiplier]) =>
                     <div key={typeName} className="grid grid-cols-1 ">
-                        <div className="flex items-center  justify-center h-8 w-8 border border-gray-200 rounded-sm"
-                            style={{ background: TYPE_COLORS[typeName] }}>
+                        <div className={`flex items-center  justify-center h-8 w-8 border border-gray-200 rounded-sm 
+                            ${TYPE_COLORS[typeName as PokemonTypeName]}`}>
                             <span className="text-xs text-white font-semibold">{typeName.slice(0, 3).toUpperCase()}</span>
                         </div>
                         <Effectiveness key={typeName}value={multiplier} />
