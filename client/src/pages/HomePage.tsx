@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { POKEMON_API_URL, POKEDEX_API_URL } from "../constants";
+import { POKEMON_API_URL, POKEMON_SPECIES_API_URL } from "../constants";
 import { type PokemonSpecies, type Pokemon } from "../types";
 import PokedexEntries from "../components/pokemon-details/PokedexEntries";
 
@@ -26,7 +26,7 @@ export default function HomePage() {
     }, []);
 
    useEffect(() => {
-        fetch(`${POKEDEX_API_URL}/56`)
+        fetch(`${POKEMON_SPECIES_API_URL}/56`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`${res.status}`)

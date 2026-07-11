@@ -13,8 +13,6 @@ body {
   --color-sky-blue: #D6EEFB;
   --color-off-white: #f0f0f8;
   --color-light-gray: #F6F6F6;
-  --color-black-text: #0F172B;
-  --color-charcoal-gray-text: #45556C;
   --color-dark-charcoal: #313131;
 
   /* Role aliases*/
@@ -24,6 +22,5 @@ body {
   --color-container-background: var(--color-dark-charcoal);
   --color-card-background: var(--color-light-gray);
   --color-card-secondary-background: var(--color-sky-blue);
-  --color-text-primary: var(--color-black-text);
-  --color-text-secondary: var(--color-charcoal-gray-text);
+  --color-secondary: var(--color-neutral-600);
 }

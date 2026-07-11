@@ -1,5 +1,6 @@
 export const POKEMON_API_URL = "https://pokeapi.co/api/v2/pokemon/" as const;
-export const POKEDEX_API_URL = "https://pokeapi.co/api/v2/pokemon-species/" as const;
+export const POKEMON_SPECIES_API_URL = "https://pokeapi.co/api/v2/pokemon-species/" as const; 
+export const NATIONAL_POKEDEX_API_URL = "https://pokeapi.co/api/v2/pokedex/1/" as const;
 
 export const POKEMON_GENERATIONS = {
     "generation-i": 1,

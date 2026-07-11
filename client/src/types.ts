@@ -34,6 +34,16 @@ export interface PokemonSpecies {
   generation: NamedAPIResource;
   genera: Genus[];
 }
+export interface Pokedex{
+  id: number;
+  name: string;
+  region: NamedAPIResource;
+  pokemon_entries: PokemonEntry[];
+};
+export interface PokemonEntry{
+  entry_number: number;
+  pokemon_species: NamedAPIResource;
+};
 export interface PokemonTypeData {
   name: string;
   damage_relations: TypeRelations;

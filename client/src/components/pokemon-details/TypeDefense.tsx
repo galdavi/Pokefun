@@ -43,7 +43,6 @@ function getDamageRelations(damageData: PokemonTypeData[]) {
         Array.from(Object.keys(TYPE_COLORS)).map((name) => [name, null])
     );
 
-    console.log(defenses);
     damageData.forEach((currType) => {
         for (const [damageCategory, relatedTypes] of Object.entries(currType.damage_relations)) {
             if (damageCategory === "no_damage_from") {
@@ -66,7 +65,6 @@ function getDamageRelations(damageData: PokemonTypeData[]) {
         }
     })
 
-    console.log(defenses)
     return defenses;
 
 }
@@ -74,9 +72,6 @@ function getDamageRelations(damageData: PokemonTypeData[]) {
 export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: PokemonType[]  }) {
     const [effectiveness, setEffectiveness] = useState<Map<string, number | null>>(new Map());
    
-
-
-
     useEffect(() => {
         
         const TYPES_API_URL = pokemonTypes.map((t) => t.type.url);
@@ -105,10 +100,10 @@ export default function PokemonTypeDefense({ pokemonTypes }: { pokemonTypes: Pok
     const typeEffects = Array.from(effectiveness);
 
     return (
-        <div className="grid grid-cols-1 px-2 gap-2">
-            <h2 className="text-2xl font-semibold">Type Defense</h2>
-            <p className="text-xs text-text-secondary">How effective an attack type is against this Pokémon.</p>
-            <div className="grid grid-cols-9 gap-1">
+        <div className="flex flex-col px-2 gap-2">
+            <h2 className="text-3xl font-semibold">Type Defense</h2>
+            <p className="text-sm text-secondary">How effective an attack type is against this Pokémon.</p>
+            <div className="grid grid-cols-9 gap-2 py-4">
                 {typeEffects.map(([typeName, multiplier]) =>
                     <div key={typeName} className="grid grid-cols-1 ">
                         <div className={`flex items-center  justify-center h-8 w-8 border border-gray-200 rounded-sm 

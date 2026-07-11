@@ -20,10 +20,11 @@ function getPokemonDimensions(w: number, h: number) {
 
 function Abilities({ pokemon }: { pokemon: Pokemon }) {
     return (pokemon.abilities.map((a) =>
-        <span key={a.ability.name} className="flex items-center flex-wrap" >
-            {toTitleCase(a.ability.name)}
-            {a.is_hidden && (<span className="text-xs text-text-secondary"> ( Hidden )</span>)}
-        </span>));
+        <div key={a.ability.name} className="flex gap-2 items-center flex-wrap" >
+            <span>{toTitleCase(a.ability.name)}</span>
+            {a.is_hidden && (<span className="text-xs text-wrap text-secondary"> ( Hidden )</span>)}
+        </div>)
+    );
 }
 
 export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon, pokedexEntry: PokemonSpecies }) {
@@ -45,6 +46,6 @@ export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon,
 
         ]
     return (
-        <DataCol title={"Pokemon Data"} content={content} />
+        <DataCol title={"Pokemon"} content={content} />
     );
 }

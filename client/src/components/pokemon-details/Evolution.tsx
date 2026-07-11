@@ -1,5 +1,5 @@
 import { type ChainLink, type EvolutionChain } from "../../types";
-import { getPokemonId, toTitleCase } from "../../helpers/formatters";
+import { formatPokemonID, getPokemonID, toTitleCase } from "../../helpers/formatters";
 import type React from "react";
 import { MoveDownRight, MoveRight, MoveUpRight } from 'lucide-react';
 
@@ -18,7 +18,7 @@ function getArrowPattern(evolutions: ({ name: string; id: number; } | null)[]) {
 }
 
 function Arrow({ index, evolutions }: { index: number, evolutions: ({ name: string; id: number; } | null)[] }) {
-    const arrowStyle = "text-text-secondary w-10 h-10";
+    const arrowStyle = "text-neutral-600 w-10 h-10";
     const ARROW_ICONS = new Map<string, React.ReactNode>([
         ["right", <MoveRight className={arrowStyle} />],
         ["up-right", <MoveUpRight className={arrowStyle} />],
@@ -42,7 +42,7 @@ function PokemonCard({ name, id }: { name: string, id: number }) {
         <div className="flex flex-col flex-1 items-center justify-center">
             <img className="w-24 h-24" src={imageSrc} alt="" />
             <span className="text-md font-semibold ">{toTitleCase(name)}</span>
-            <span className="text-sm text-text-secondary">#{id.toString().padStart(4, "0")}</span>
+            <span className="text-sm text-neutral-600">#{formatPokemonID(id)}</span>
         </div>
     );
 }
@@ -68,7 +68,7 @@ function getGrid(node: ChainLink) {
     while (parentStack.length > 0) {
         const parent = parentStack[parentStack.length - 1];
         parentStack.pop();
-        col[parent.row] = { name: parent.node.species.name, id: getPokemonId(parent.node.species.url) };
+        col[parent.row] = { name: parent.node.species.name, id: getPokemonID(parent.node.species.url) };
 
         parent.node.evolves_to.forEach((child, i) => childStack.push({ node: child, row: i + parent.row }))
         numOfRows = Math.max(numOfRows, childStack.length)
@@ -80,7 +80,7 @@ function getGrid(node: ChainLink) {
         while (childStack.length > 0) {
             const child = childStack[childStack.length - 1];
             childStack.pop();
-            col[child.row] = { name: child.node.species.name, id: getPokemonId(child.node.species.url) }
+            col[child.row] = { name: child.node.species.name, id: getPokemonID(child.node.species.url) }
             if (child.node.evolves_to.length > 0) {
                 parentStack.push({ node: child.node, row: child.row })
             }

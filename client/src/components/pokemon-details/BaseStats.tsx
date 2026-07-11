@@ -31,18 +31,22 @@ function getStats(data: { base_stat: number, stat: { name: string } }[]) {
 
     return stats;
 }
-export default function BaseStats({ data }: { data:  Array<{ base_stat: number, stat: { name: string } }> }) {
+export default function BaseStats({ data }: { data: Array<{ base_stat: number, stat: { name: string } }> }) {
     const stats = getStats(data);
     const maxStatValue = 255;
     return (
-        <div className="grid grid-cols-1 w-5/6 gap-1">
-            <h2 className="text-2xl font-semibold">Base Stats</h2>
-            <div className="grid grid-cols-1  w-full border-y border-gray-300">
+        <div className="flex flex-col w-full h-auto max-w-sm gap-2">
+            <h2 className="text-3xl font-semibold">Base Stats</h2>
+            <div className="flex flex-col w-full max-w-lg border-y border-gray-300">
                 {stats.map((stat) =>
-                    <div key={stat.name} className="flex w-full py-1 px-2 gap-2" >
-                        <h2 className="w-12 text-xs text-text-secondary">{stat.name}</h2>
-                        <p className=" w-10 text-xs"> {stat.value}</p>
-                        <div className="flex items-center flex-1"><div className={`h-2 ${stat.background} rounded-xs`} style={{ width: `${(stat.value / maxStatValue) * 100}%` }}></div></div>
+                    <div key={stat.name} className="flex w-full py-1 px-2 gap-2 text-sm " >
+                        <h2 className="w-12 text-secondary">{stat.name}</h2>
+                        <p className=" w-10 "> {stat.value}</p>
+                        <div className="flex items-center flex-1">
+                            <div className={`h-2 ${stat.background} rounded-xs`}
+                                style={{ width: `${(stat.value / maxStatValue) * 100}%` }}>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>

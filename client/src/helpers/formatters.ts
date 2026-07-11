@@ -21,6 +21,10 @@ export function formatStat(stat : string){
 
             return stat;
 }
-export function getPokemonId(url: string) {
+export function getPokemonID(url: string) {
   return Number(url.split("/").filter(Boolean).at(-1));
+}
+
+export function formatPokemonID(id : string | number){
+    return id.toString().padStart(4, "0");
 }

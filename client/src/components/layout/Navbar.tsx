@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export default function Navbar() {
@@ -24,8 +24,8 @@ export default function Navbar() {
                 </button>
                 <div className="hidden sm:flex gap-4    ">
 
-                <Link to="/pokedex" className="text-sm text-white">Pokedex</Link>
-                <Link to="/pokemon-details/bulbasaur" className="text-sm text-white">Pokemon Details</Link>
+                <Link to="/pokedex"  className="text-sm text-white" reloadDocument>Pokedex</Link>
+                <Link to="/pokemon-details/bulbasaur"  className="text-sm text-white" reloadDocument>Pokemon Details</Link>
 
                 </div>
             </nav>
@@ -41,8 +41,6 @@ export default function Navbar() {
                     >Pokemon Details</Link>
                 </nav>
             }
-
-            <Outlet/>
         </>
     );
 }

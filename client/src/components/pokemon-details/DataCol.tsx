@@ -1,16 +1,16 @@
 import DataRow from "./DataRow";
-interface Props {
+interface DataColsProps {
     title: string;
     content: Array<{
         label: string;
         value: React.ReactNode;
     }>;
 }
-export default function DataCol({ title, content }: Props) {
-    const colStyle = "grid grid-cols-1 divide-y divide-gray-200";
+export default function DataCol({ title, content }: DataColsProps) {
+    const colStyle = "flex flex-col w-full min-w-2xs divide-y divide-gray-200";
     return (
-        <div className="grid grid-cols-1 gap-2">
-            <h2 className="text-2xl font-semibold">{title}</h2>
+        <div className="flex flex-col gap-2">
+            <h2 className="text-3xl font-semibold">{title} Data</h2>
             <div className={colStyle}>
                 {content.map((c) => {
                     return (

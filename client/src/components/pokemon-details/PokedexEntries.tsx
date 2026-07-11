@@ -40,13 +40,12 @@ export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: Pokemon
     const list = Array.from(entries.keys(), (version) => <option key={version}>{version}</option>);
 
     return (
-
-        <div className="flex flex-col w-full h-36 px-2 py-4 bg-card-background border border-gray-200">
+        <div className="flex flex-col w-full h-auto min-h-36 px-2 py-4 bg-card-background border border-gray-200">
             <div className="flex items-center justify-between py-2">
-                <h2 className="text-lg font-semibold">Pokedex Entries</h2>
-                <div className="flex  gap-2">
-                    <label className="text-xs">Version:</label>
-                    <select value={currentEntry} className="text-xs w-32 px-1 border rounded-sm"
+                <h2 className="text-lg font-semibold">Pokédex Entries</h2>
+                <div className="flex gap-2 text-xs">
+                    <label className="">Version:</label>
+                    <select value={currentEntry} className="w-32 px-1 border rounded-sm"
                         onChange={(e) => { setCurrentEntry(e.target.value) }}>
                         {list}
                     </select>
@@ -54,7 +53,7 @@ export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: Pokemon
             </div>
 
             <div className="flex items-center">
-                <p className="text-xs text-text-secondary"> {entries.get(currentEntry)}</p>
+                <p className="text-xs text-secondary"> {entries.get(currentEntry)}</p>
             </div>
         </div>
 
