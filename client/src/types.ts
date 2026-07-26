@@ -11,9 +11,9 @@ export interface Pokemon {
     latest: string;
     legacy: string;
   };
-
   stats: PokemonStat[];
   types: PokemonType[];
+  species: NamedAPIResource;
 }
 
 export interface PokemonSpecies {
@@ -88,7 +88,7 @@ export interface PokemonMove {
   version_group_details: PokemonMoveVersion[];
 }
 
-interface NamedAPIResource {
+export interface NamedAPIResource {
   name: string;
   url: string;
 }
@@ -149,12 +149,43 @@ interface Genus {
   genus: string;
   language: NamedAPIResource;
 }
-interface EvolutionDetail {
-  item: NamedAPIResource | null;
-  trigger: NamedAPIResource;
+
+export interface EvolutionDetail {
+  base_form: NamedAPIResource | null;
+  evolved_form: NamedAPIResource | null;
+
+  gender: number | null;
   held_item: NamedAPIResource | null;
-  min_level: number | null;
+  item: NamedAPIResource | null;
+  known_move: NamedAPIResource | null;
+  known_move_type: NamedAPIResource | null;
+  location: NamedAPIResource | null;
+
+  min_affection: number | null;
+  min_beauty: number | null;
+  min_damage_taken: number | null;
   min_happiness: number | null;
+  min_level: number | null;
+  min_move_count: number | null;
+  min_steps: number | null;
+
+  near_special_rock: boolean;
+  needs_multiplayer: boolean;
+  needs_overworld_rain: boolean;
+
+  party_species: NamedAPIResource | null;
+  party_type: NamedAPIResource | null;
+  region: NamedAPIResource | null;
+
+  relative_physical_stats: number | null;
+  time_of_day: string;
+
+  trade_species: NamedAPIResource | null;
+  trigger: NamedAPIResource;
+
+  turn_upside_down: boolean;
+  used_move: NamedAPIResource | null;
+  version_group: NamedAPIResource;
 }
 
 export interface ErrorState{

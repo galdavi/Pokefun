@@ -48,6 +48,7 @@ export default function PokemonDetails() {
                 setPokemon(pokemonData);
                 setPokemonSpecies(pokemonSpeciesData);
                 setPokedex(pokedexData);
+
             } catch (error) {
                 const errorType = {
                     title: `Could not load Pokémon data`,
@@ -99,6 +100,7 @@ export default function PokemonDetails() {
             <Loader />
         );
     }
+
     return (
         <div className="flex flex-col items-center w-full max-w-7xl py-4 px-10 bg-white border border-gray-200 shadow-md gap-10 divide-y divide-gray-200 ">
             <PageTitle name={pokemon.name} id={pokemon.id} pokedex={pokedex.pokemon_entries} />
@@ -122,7 +124,7 @@ export default function PokemonDetails() {
                 <TypeDefense pokemonTypes={pokemon.types} />
             </section>
             <section className={detailsSectionLayout}>
-                <Evolution pokemonName={pokemon.name} evolutionChain={evolutionChain} />
+                <Evolution pokemonName={pokemon.name} evolutionChain={evolutionChain.chain} />
             </section>
         </div>
 

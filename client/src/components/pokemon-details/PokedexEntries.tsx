@@ -44,11 +44,12 @@ export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: Pokemon
             <div className="flex items-center justify-between py-2">
                 <h2 className="text-lg font-semibold">Pokédex Entries</h2>
                 <div className="flex gap-2 text-xs">
-                    <label className="">Version:</label>
-                    <select value={currentEntry} className="w-32 px-1 border rounded-sm"
+                    <label className="">Version:
+                    <select name={currentEntry} value={currentEntry} className="w-32 px-1 border rounded-sm"
                         onChange={(e) => { setCurrentEntry(e.target.value) }}>
                         {list}
                     </select>
+                    </label>
                 </div>
             </div>
 

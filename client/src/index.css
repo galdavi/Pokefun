@@ -7,12 +7,15 @@ body {
 }
 
 @theme {
+    /* Text sizing */
+  --text-2xs: 0.625rem; /* 10px */
+  
   /* Base palette */
   --color-light-red: #c85048;
   --color-dark-red: #c93a30;
-  --color-sky-blue: #D6EEFB;
+  --color-sky-blue: #d6eefb;
   --color-off-white: #f0f0f8;
-  --color-light-gray: #F6F6F6;
+  --color-light-gray: #f6f6f6;
   --color-dark-charcoal: #313131;
 
   /* Role aliases*/
