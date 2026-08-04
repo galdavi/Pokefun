@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { POKEMON_API_URL } from "../constants";
-import { type Pokemon } from "../types";
-import PokedexEntries from "../components/PokedexEntries";
-import PokedexCard from "../components/PokedexCard";
+import { POKEMON_API_URL, POKEMON_SPECIES_API_URL } from "../constants";
+import { type PokemonSpecies, type Pokemon } from "../types";
+import PokedexEntries from "../components/pokemon-details/PokedexEntries";
+
 
 
 
 export default function HomePage() {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-
+    const [pokedexEntry, setPokedexEntry] = useState<PokemonSpecies | null>(null);
 
     useEffect(() => {
         fetch(`${POKEMON_API_URL}/56`)
@@ -20,23 +20,34 @@ export default function HomePage() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 setPokemon(data);
             })
             .catch((error) => { console.error(error); })
     }, []);
 
-
+   useEffect(() => {
+        fetch(`${POKEMON_SPECIES_API_URL}/56`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`${res.status}`)
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setPokedexEntry(data);
+            })
+            .catch((err) => { console.error(err); })
+    }, []);
     return (
         <>
             {
-            pokemon &&
+            pokemon && pokedexEntry &&
                 <div className="flex flex-col items-center justify-center">
                     <h2 className="text-3xl font-bold text-text-primary py-4">Featured Pokemon</h2>
-                    <PokedexCard pokemon={pokemon} />
+                    {/* <PokedexCard pokemon={pokemon} /> */}
 
                     <div className="">
-                        <PokedexEntries pokemon={pokemon} />
+                        <PokedexEntries pokedexEntry={pokedexEntry} />
                     </div>
                 </div>
             }

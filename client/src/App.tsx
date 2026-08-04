@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
 import HomePage from "./pages/HomePage"
 import PokedexPage from "./pages/PokedexPage"
+import PokemonDetails from "./pages/PokemonDetailsPage"
+import MainLayout from "./layouts/MainLayout"
 
 
 function App() {
@@ -9,8 +10,11 @@ function App() {
   return (
     <div className="min-h-screen w-full">
       <Routes>
-        <Route path="/" element={<><Navbar /><HomePage /></>} />
-        <Route path="/pokedex" element={<><Navbar/><PokedexPage/></>}/>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage/>}/>
+          <Route path="/pokedex" element={<PokedexPage />} />
+          <Route path="/pokemon-details/:pokemon?" element={<PokemonDetails/>} />
+        </Route>
       </Routes>
     </div>
   )
