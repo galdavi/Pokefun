@@ -17,6 +17,7 @@ export interface Pokemon {
 }
 
 export interface PokemonSpecies {
+  id: number;
   name: string;
   gender_rate: number;
   capture_rate: number;
@@ -33,6 +34,7 @@ export interface PokemonSpecies {
   evolution_chain: APIResource;
   generation: NamedAPIResource;
   genera: Genus[];
+  varieties: PokemonSpeciesVariety[];
 }
 export interface Pokedex{
   id: number;
@@ -64,7 +66,7 @@ export type ChainLink = {
   species: NamedAPIResource;
   evolution_details: EvolutionDetail[];
   evolves_to: ChainLink[];
-};
+}
 
 export type Move = {
   id: number;
@@ -188,8 +190,13 @@ export interface EvolutionDetail {
   version_group: NamedAPIResource;
 }
 
+export interface PokemonSpeciesVariety{
+  is_default: boolean;
+  pokemon: NamedAPIResource;
+}
+
 export interface ErrorState{
   title: string;
   message: string;
-};
+}
 export type Content = Array<{ label: string; value: React.ReactNode }>;

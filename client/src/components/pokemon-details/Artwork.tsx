@@ -31,7 +31,7 @@ export default function Artwork({ pokemon }: { pokemon: Pokemon }) {
                 handleClick={(e) => { setCurrent(e.currentTarget.value) }} />
             <div className="flex px-4 bg-white">
 
-            <div className="flex items-center justify-center w-full max-w-xs min-w-xs bg-card-secondary-background rounded-md">
+            <div className="flex items-center justify-center w-full max-w-xs min-w-3xs bg-card-secondary-background rounded-md">
                 <img className="h-auto w-full max-w-3xs object-cover" src={artwork.get(current)} alt={current} />
             </div>
             </div>

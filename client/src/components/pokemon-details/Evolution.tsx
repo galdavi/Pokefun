@@ -7,7 +7,7 @@ import EvolutionDescription from "./EvolutionDescription";
 type EvolutionGraph = Map<
     string,
     Map<string, EvolutionDetail[]>
->;
+>
 interface EvolutionNode {
     name: string;
     row: number;

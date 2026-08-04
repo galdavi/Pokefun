@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { type PokemonSpecies } from "../../types";
 import { toTitleCase } from "../../helpers/formatters";
 
@@ -35,21 +35,21 @@ function getCleanEntries(data: PokemonSpecies['flavor_text_entries']) {
 
 export default function PokedexEntries({ pokedexEntry }: { pokedexEntry: PokemonSpecies }) {
     const entries = getCleanEntries(pokedexEntry.flavor_text_entries);
-    const [currentEntry, setCurrentEntry] = useState(entries.keys().next().value ?? " ");
-
+    const [currentEntry, setCurrentEntry] = useState<string>(entries.keys().next().value ?? " ");
     const list = Array.from(entries.keys(), (version) => <option key={version}>{version}</option>);
-
+    const selectVersion = useId();
     return (
         <div className="flex flex-col w-full h-auto min-h-36 px-2 py-4 bg-card-background border border-gray-200">
             <div className="flex items-center justify-between py-2">
                 <h2 className="text-lg font-semibold">Pokédex Entries</h2>
                 <div className="flex gap-2 text-xs">
-                    <label className="">Version:
-                    <select name={currentEntry} value={currentEntry} className="w-32 px-1 border rounded-sm"
+                    <label htmlFor={selectVersion}>Version:</label>
+                    <select id={selectVersion}
+                    className="w-32 px-1 border rounded-sm"
+                    name={currentEntry} value={currentEntry} 
                         onChange={(e) => { setCurrentEntry(e.target.value) }}>
                         {list}
                     </select>
-                    </label>
                 </div>
             </div>
 

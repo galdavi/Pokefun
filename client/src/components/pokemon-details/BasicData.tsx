@@ -1,4 +1,4 @@
-import { toTitleCase } from "../../helpers/formatters";
+import { formatPokemonID, toTitleCase } from "../../helpers/formatters";
 import { type Pokemon, type PokemonSpecies, type Content } from "../../types";
 import PokemonTypeBadges from "../PokemonTypeBadges";
 import DataCol from "./DataCol";
@@ -33,7 +33,7 @@ export default function BasicData({ pokemon, pokedexEntry }: { pokemon: Pokemon,
 
     const content: Content =
         [
-            { label: "№", value: pokemon.id.toString().padStart(4, "0") },
+            { label: "№", value: formatPokemonID(pokedexEntry.id) },
             { label: "Type", value: (<PokemonTypeBadges types={pokemon.types} />) },
             { label: "Category", value: (category ? category.genus : '') },
             { label: "Height", value: (`${dimensions.height.metric} (${dimensions.height.USCustomary})`) },

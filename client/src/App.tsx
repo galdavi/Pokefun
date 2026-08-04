@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage/>}/>
           <Route path="/pokedex" element={<PokedexPage />} />
-          <Route path="/pokemon-details/:pokemon?" element={<><PokemonDetails/></>} />
+          <Route path="/pokemon-details/:pokemon?" element={<PokemonDetails/>} />
         </Route>
       </Routes>
     </div>

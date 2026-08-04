@@ -16,7 +16,7 @@ interface MovesData {
 
 
 
-
+//Scrap for now will work on once other pages are up and running
 function Generations({ generation }: { generation: string }) {
     const genNumber = POKEMON_GENERATIONS[generation as PokemonGeneration];
     const [current, setCurrent] = useState<string>(genNumber.toString());
