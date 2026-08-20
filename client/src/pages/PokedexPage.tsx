@@ -1,56 +1,242 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { GEN_API_URL } from "../constants";
+import type { 
+    NamedAPIResource, 
+    ErrorState, 
+    Generation, 
+    PokemonSpecies, 
+    Pokemon,
+PokedexCardData } from "../types";
+import Loader from "../components/Loader";
+import FetchError from "../components/FetchError";
+import { getPokemonID } from "../helpers/formatters";
 import Pokedex from "../components/pokedex/Pokedex";
 
-const GEN_API_URL = "https://pokeapi.co/api/v2/generation/"
 
-
-
-function cleanData(data: Array<{ name: string, url: string }>) {
+function getGenerationMap(data: NamedAPIResource[]) {
     const generation = new Map<string, string>();
-    
     for (let i = 0; i < data.length; i++) {
-        data[i].name = data[i].name.replace(/-/g, " ");
-        data[i].name = data[i].name[0].toUpperCase() + data[i].name.slice(1);
-
-        generation.set(data[i].name, data[i].url);
+        let genName = data[i].name.replace(/-/g, " ");
+        genName = genName[0].toUpperCase() + genName.slice(1);
+        genName = genName.slice(0, 11) + genName.slice(11).toUpperCase();
+        generation.set(genName, data[i].url);
     }
     return generation;
 }
 
+
 export default function PokedexPage() {
-    const [generation, setGenerations] = useState<Map<string, string>>();
-    const [current, setCurrent] = useState<string>("Generation i");
+    const [error, setError] = useState<ErrorState | null>(null);
+    const [generation, setGenerations] = useState<Map<string, string> | null>(null);
+    const [selectedGen, setSelectedGen] = useState<string>("");
+    const [speciesURL, setSpeciesURL] = useState<string[]>([]);
+    const [pokedex, setPokedex] = useState<PokedexCardData[]>([]);
+    const [isPokedexLoading, setIsPokedexLoading] = useState(false);
+    const isGenerationLoading = !generation;
+    const pokedexURL = generation?.get(selectedGen) ?? "";
+    const selectVersion = useId();
+
+    //Web page should display an error if the fetch fails.
     useEffect(() => {
         fetch(GEN_API_URL)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Error ${response.status} `);
                 }
-
                 return response.json();
             })
             .then((data) => {
-                setGenerations(cleanData(data.results));
-                
+                const generationMap = getGenerationMap(data.results);
+                const currentGen = generationMap.keys().next().value ?? ""
+                setGenerations(generationMap);
+                setSelectedGen(currentGen);
             })
-            .catch((error) => { console.error(error); })
+            .catch((err) => {
+                const error = err instanceof Error ? err : new Error(`Unexpected error`);
+
+                const errorType = {
+                    title: `Failed to fetch generations`,
+                    message: error.message,
+                };
+                setError(errorType);
+            })
     }, []);
 
-    return (
-        <>
-            {generation &&
-                <div className="flex flex-col items-center justify-center w-full pt-2 gap-2">
-                    <div>
-                        <label>Select Generation: </label>
-                        <select value={current}
-                            onChange={(e)=>{setCurrent(e.target.value);}}>
-                            {Array.from(generation.keys(),(gen) => <option key={gen}>{gen}</option>)}
-                        </select>
-                    </div>
-                    <Pokedex url={generation.get(current) ?? null} />
-                </div>
+    //App should display an error if the fetch fails.
+    useEffect(() => {
+        if (pokedexURL === "") {
+            return;
+        }
+        const controller = new AbortController();
+        fetch(pokedexURL, {
+            signal: controller.signal
+        })
+            .then((response) => {
+                setSpeciesURL([])
+                if (!response.ok) {
+                    throw new Error(`${response.status}`);
+                }
+                return response.json();
+            })
+            .then((generationData: Generation) => {
+                const species = generationData?.pokemon_species.map((p) => p.url)
+                setSpeciesURL(species)
+            }).catch((err) => {
+                const error = err instanceof Error ? err : new Error(`Unexpected error`);
+
+                const errorType = {
+                    title: `Failed to fetch pokedex url`,
+                    message: error.message,
+                };
+                setError(errorType);
+            })
+
+        return () => controller.abort();
+    }, [pokedexURL])
+
+    //If a single fetch fails then the app should display 
+    // the card in which the fetch failed
+    useEffect(() => {
+        const controller = new AbortController();
+
+        const fetchPokedexData = async () => {
+            setPokedex([]);
+            setIsPokedexLoading(true)
+            const fetchPromises = speciesURL.map(
+                async (url): Promise<PokedexCardData> => {
+                    const fallbackID = getPokemonID(url);
+
+                    try {
+                        const speciesResponse = await fetch(url, {
+                            signal: controller.signal
+                        });
+
+                        if (!speciesResponse.ok) {
+                            const errorType = {
+                                title: `Failed to fetch species data`,
+                                message: `Species HTTP ${speciesResponse.status}`,
+                            }
+
+                            return {
+                                isError: true,
+                                id: fallbackID,
+                                species: null,
+                                pokemon: null,
+                                error: errorType
+                            };
+                        }
+
+                        //Fetch Species Data
+                        const speciesData: PokemonSpecies = await speciesResponse.json();
+                        const defaultVariety = speciesData.varieties.find((variety) => variety.is_default);
+
+                        if (!defaultVariety ) {
+                            const errorType = {
+                                title: `Failed to fetch default variety data`,
+                                message: `No default variety found for species ${speciesData.name}`,
+                            }
+
+                            return {
+                                isError: true,
+                                id: fallbackID,
+                                species: speciesData,
+                                pokemon: null,
+                                error: errorType
+                            };
+                        }
+
+                        //Fetch Pokemon Data
+                        const pokemonResponse = await fetch(defaultVariety.pokemon.url, {
+                            signal: controller.signal
+                        }
+                        );
+
+                        if (!pokemonResponse.ok) {
+
+                            const errorType = {
+                                title: `Failed to fetch pokemon data`,
+                                message: `Pokemon HTTP ${pokemonResponse.status}`,
+                            }
+                            return {
+                                isError: true,
+                                id: fallbackID,
+                                species: speciesData,
+                                pokemon: null,
+                                error: errorType
+                            };
+
+                        }
+                        const pokemonData: Pokemon = await pokemonResponse.json();
+
+                        //If both request succeed
+                        return {
+                            isError: false,
+                            id: speciesData.id ?? fallbackID,
+                            species: speciesData,
+                            pokemon: pokemonData,
+                            error: null
+                        };
+                    } catch (err) {
+
+                        const error = err instanceof Error ? err : new Error(`Unexpected error occurred`);
+                        const errorType = {
+                            title: `Failed to fetch data`,
+                            message: error.message,
+                        }
+                        return {
+                            isError: true,
+                            id: fallbackID,
+                            species: null,
+                            pokemon: null,
+                            error: errorType
+                        };
+                    }
+                })
+
+            const results: PokedexCardData[] = await Promise.all(fetchPromises);
+            
+            // Check if the fetch was aborted before updating the state
+            if (controller.signal.aborted) {
+                return;
             }
 
-        </>
+
+            const sortedSpecies = results.sort((a, b) => a.id - b.id);
+            setPokedex(sortedSpecies);
+            setIsPokedexLoading(false);
+        }
+
+        fetchPokedexData();
+
+        return () => controller.abort();
+
+    }, [speciesURL]);
+
+    if (error) {
+        return (
+            <FetchError error={error} />);
+    }
+    if (isGenerationLoading) {
+        return (
+            <Loader />
+        );
+    }
+
+    return (
+
+        <div className="flex flex-col items-center justify-center w-full pt-4 gap-4">
+            <div className="flex gap-2 text-xs">
+                <label htmlFor={selectVersion}>Select Generation: </label>
+                <select id={selectVersion}
+                className="px-1 border rounded-sm"
+                name={selectedGen}
+                value={selectedGen}
+                    onChange={(e) => { setSelectedGen(e.target.value); }}>
+                    {Array.from(generation.keys(), (gen) => <option key={gen}>{gen}</option>)}
+                </select>
+            </div>
+            {isPokedexLoading ? <Loader/> : <Pokedex pokedex={pokedex}/> }
+        </div>
+
     );
 }

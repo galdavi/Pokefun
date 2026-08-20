@@ -85,7 +85,7 @@ function getEvolutionChain(graph: EvolutionGraph, initialPokemon: string, visite
 
     return chain;
 }
-//Since the api data is inconsitent, we need a graph to get the 
+//Since the api data is inconsistent, we need a graph to get the 
 //galarian, hisui and regular evolutions in a consistent format
 function buildEvolutionGraph(node: ChainLink) {
     const map = new Map<string, Map<string, EvolutionDetail[]>>();

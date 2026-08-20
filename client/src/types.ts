@@ -36,16 +36,21 @@ export interface PokemonSpecies {
   genera: Genus[];
   varieties: PokemonSpeciesVariety[];
 }
-export interface Pokedex{
+export interface Pokedex {
   id: number;
   name: string;
   region: NamedAPIResource;
   pokemon_entries: PokemonEntry[];
-};
-export interface PokemonEntry{
+}
+export interface Generation {
+  id: number;
+  name: string;
+  pokemon_species: NamedAPIResource[];
+}
+export interface PokemonEntry {
   entry_number: number;
   pokemon_species: NamedAPIResource;
-};
+}
 export interface PokemonTypeData {
   name: string;
   damage_relations: TypeRelations;
@@ -66,7 +71,7 @@ export type ChainLink = {
   species: NamedAPIResource;
   evolution_details: EvolutionDetail[];
   evolves_to: ChainLink[];
-}
+};
 
 export type Move = {
   id: number;
@@ -190,13 +195,31 @@ export interface EvolutionDetail {
   version_group: NamedAPIResource;
 }
 
-export interface PokemonSpeciesVariety{
+export interface PokemonSpeciesVariety {
   is_default: boolean;
   pokemon: NamedAPIResource;
 }
 
-export interface ErrorState{
+export interface ErrorState {
   title: string;
   message: string;
 }
 export type Content = Array<{ label: string; value: React.ReactNode }>;
+
+//The PokedexCardData type is a union because it allows us
+//to handle the error state properly. 
+export type PokedexCardData =
+    | {
+        isError: false;
+        id: number;
+        species: PokemonSpecies;
+        pokemon: Pokemon;
+        error: null;
+    }
+    | {
+        isError: true;
+        id: number;
+        species: PokemonSpecies | null;
+        pokemon: Pokemon | null;
+        error: ErrorState;
+    }; 

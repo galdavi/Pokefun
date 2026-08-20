@@ -4,6 +4,8 @@ export const POKEMON_SPECIES_API_URL =
 export const NATIONAL_POKEDEX_API_URL =
   "https://pokeapi.co/api/v2/pokedex/1/" as const;
 
+export const GEN_API_URL = "https://pokeapi.co/api/v2/generation/" as const;
+
 export const POKEMON_GENERATIONS = {
   "generation-i": 1,
   "generation-ii": 2,
@@ -35,7 +37,6 @@ export const EVOLUTION_TRIGGERS = {
   "gimmighoul-coins": "Collect 999 Gimmighoul Coins",
 } as const;
 
-
 export const TYPE_COLORS = {
   normal: "bg-zinc-500",
   fire: "bg-red-600",
@@ -60,4 +61,4 @@ export const TYPE_COLORS = {
 export type PokemonTypeName = keyof typeof TYPE_COLORS;
 export type PokemonGeneration = keyof typeof POKEMON_GENERATIONS;
 
-export const cardSizeClasses ="h-60 w-28 shrink-0 sm:w-36 lg:w-44";
+export const cardSizeClasses = "h-60 w-28 shrink-0 sm:w-36 lg:w-44";
