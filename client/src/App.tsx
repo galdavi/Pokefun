@@ -8,7 +8,7 @@ import MainLayout from "./layouts/MainLayout"
 function App() {
 
   return (
-    <div className="min-h-screen w-full">
+    <div className="flex flex-col min-h-screen w-full">
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage/>}/>

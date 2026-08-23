@@ -7,12 +7,10 @@ body {
 }
 
 @theme {
-    /* Text sizing */
+  /* Text sizing */
   --text-2xs: 0.625rem; /* 10px */
-  
-  /* Base palette */
-  --color-light-red: #c85048;
-  --color-dark-red: #c93a30;
+
+  /* Card Base palette */
   --color-sky-blue: #d6eefb;
   --color-off-white: #f0f0f8;
   --color-light-gray: #f6f6f6;
@@ -26,4 +24,17 @@ body {
   --color-card-background: var(--color-light-gray);
   --color-card-secondary-background: var(--color-sky-blue);
   --color-secondary: var(--color-neutral-600);
+
+  --animate-wiggle-bounce: wiggle-bounce 2s ease-in-out infinite;
+  @keyframes wiggle-bounce {
+    0%,100% {
+      transform: translateY(-25%) rotate(-4deg);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+
+    }
+    50% {
+      transform: translateY(0) rotate(4deg);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
 }
