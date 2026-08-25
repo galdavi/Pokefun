@@ -15,7 +15,7 @@ const loaderMessages = [
 ]
 
 // Add the inner button circle right now it just looks flat
-export default function Loader() {
+export default function PageLoader() {
     const [index, setIndex] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => {

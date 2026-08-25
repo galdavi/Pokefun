@@ -7,7 +7,7 @@ import type {
     PokemonSpecies, 
     Pokemon,
 PokedexCardData } from "../types";
-import Loader from "../components/Loader";
+import PageLoader from "../components/PageLoader";
 import FetchError from "../components/FetchError";
 import { getPokemonID } from "../helpers/formatters";
 import Pokedex from "../components/pokedex/Pokedex";
@@ -218,7 +218,7 @@ export default function PokedexPage() {
     }
     if (isGenerationLoading) {
         return (
-            <Loader />
+            <PageLoader />
         );
     }
 
@@ -235,7 +235,7 @@ export default function PokedexPage() {
                     {Array.from(generation.keys(), (gen) => <option key={gen}>{gen}</option>)}
                 </select>
             </div>
-            {isPokedexLoading ? <Loader/> : <Pokedex pokedex={pokedex}/> }
+            {isPokedexLoading ? <PageLoader/> : <Pokedex pokedex={pokedex}/> }
         </div>
 
     );

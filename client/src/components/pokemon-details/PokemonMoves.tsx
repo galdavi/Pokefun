@@ -2,7 +2,7 @@ import { type ErrorState, type Move, type PokemonMove, type PokemonMoveVersion }
 import { useEffect, useState } from "react";
 import { POKEMON_GENERATIONS, type PokemonGeneration } from "../../constants";
 import TabsLists from "../TabsLists";
-import Loader from "../Loader";
+import Loader from "../PageLoader";
 import FetchError from "../FetchError";
 interface Props {
     pokemonMoves: PokemonMove[];

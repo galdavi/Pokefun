@@ -3,6 +3,7 @@ import { toTitleCase } from "../../helpers/formatters";
 import type { Pokemon } from "../../types";
 import imageNotFound from "../../assets/image-not-found.png";
 import TabsLists from "../TabsLists";
+import ImageWithLoader from "../ImageWithLoader";
 
 function getArtwork(pokemon: Pokemon) {
     const artwork = new Map<string, string>();
@@ -31,8 +32,8 @@ export default function Artwork({ pokemon }: { pokemon: Pokemon }) {
                 handleClick={(e) => { setCurrent(e.currentTarget.value) }} />
             <div className="flex px-4 bg-white">
 
-            <div className="flex items-center justify-center w-full max-w-xs min-w-3xs bg-card-secondary-background rounded-md">
-                <img className="h-auto w-full max-w-3xs object-cover" src={artwork.get(current)} alt={current} />
+            <div className="flex items-center justify-center w-full h-auto max-w-2xs min-w-xs p-8 bg-card-secondary-background rounded-md">
+                <ImageWithLoader imageSrc={artwork.get(current) ?? imageNotFound} alt="Pokemon Artwork"/>
             </div>
             </div>
 
