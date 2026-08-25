@@ -4,6 +4,7 @@ import { formatPokemonID, toTitleCase } from "../../helpers/formatters";
 import ImageNotFound from "../../assets/image-not-found.png";
 import PokemonTypeBadges from "../PokemonTypeBadges";
 import { Link } from "react-router-dom";
+import ImageWithLoader from "../ImageWithLoader";
 
 interface PokedexCardProps {
     id: number;
@@ -27,9 +28,9 @@ export default function PokedexCard({ id, name, pokemon }: PokedexCardProps) {
                 className="flex items-center justify-center 
              w-full h-auto max-w-36 min-w-34 py-4 px-2
              bg-card-secondary-background rounded-md ">
-                <img className="h-full w-full object-contain
-                    hover:scale-105 transition-transform duration-300 ease-in-out"
-                    src={pokemon.sprites.other.home.front_default ?? ImageNotFound} alt={name} />
+
+                <ImageWithLoader imageSrc={pokemon.sprites.other.home.front_default ?? ImageNotFound}
+                    alt={name}/>
             </Link>
 
             <Link to={`/pokemon-details/${id}`}

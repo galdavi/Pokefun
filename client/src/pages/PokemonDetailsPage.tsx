@@ -9,7 +9,7 @@ import BreedingData from "../components/pokemon-details/BreedingData";
 import Artwork from "../components/pokemon-details/Artwork";
 import PokedexEntries from "../components/pokemon-details/PokedexEntries";
 import Evolution from "../components/pokemon-details/Evolution";
-import Loader from "../components/Loader";
+import PageLoader from "../components/PageLoader";
 import FetchError from "../components/FetchError";
 import PageTitle from "../components/pokemon-details/PageTitle";
 import usePokemonData from "../usePokemonData";
@@ -34,7 +34,7 @@ export default function PokemonDetails() {
     }
     if (isLoading || !pokemon || !pokemonSpecies || !evolutionChain || !pokedex) {
         return (
-            <Loader />
+            <PageLoader />
         );
     }
     return (
